@@ -44,7 +44,7 @@
     h3{font-size: clamp(18px, 2.4vw, 22px); margin:0 0 8px}
     p.lead{color:#4b5563; font-size: clamp(16px, 2.2vw, 18px)}
 
-    .btn{display:inline-flex; align-items:center; gap:10px; padding:14px 20px; border-radius:16px; text-decoration:none; color:#ffffff; font-weight:650; background: linear-gradient(180deg, var(--accent), var(--accent-2)); border:1px solid var(--accent-2); box-shadow: 0 6px 16px rgba(101,203,163,.3)}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:14px 20px; border-radius:16px; text-decoration:none; color:#ffffff; font-weight:650; background: linear-gradient(180deg, var(--accent), var(--accent-2)); border:1px solid var(--accent-2); box-shadow: 0 6px 16px rgba(101,203,163,.3); box-sizing:border-box}
     .btn:hover{transform: translateY(-1px); box-shadow: 0 10px 24px rgba(101,203,163,.4)}
     .btn.secondary{background:rgba(255,255,255,0.8); color:var(--text); border:1px solid var(--stroke)}
 
@@ -88,9 +88,17 @@
     .form{max-width:860px; margin:0 auto; padding:24px}
     .row{display:grid; grid-template-columns: repeat(2, 1fr); gap:14px}
     .row-1{display:grid; grid-template-columns: 1fr; gap:14px}
-    .input{display:block; width:100%; padding:14px 16px; border-radius:14px; color:var(--text); background:rgba(255,255,255,.9); border:1px solid var(--stroke); outline:none}
+    .input{display:block; width:100%; padding:14px 16px; border-radius:14px; color:var(--text); background:rgba(255,255,255,.9); border:1px solid var(--stroke); outline:none; box-sizing:border-box}
     .input::placeholder{color:#9ca3af}
     .input:focus{border-color:var(--accent); box-shadow: 0 0 0 3px rgba(101,203,163,.1)}
+
+    .contact-methods{display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-bottom:14px}
+    .contact-method{position:relative}
+    .contact-method input[type="radio"]{position:absolute; opacity:0; width:0; height:0}
+    .contact-method label{display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 8px; border-radius:12px; border:1px solid var(--stroke); background:rgba(255,255,255,.9); cursor:pointer; transition:all .2s ease; text-align:center; font-size:13px; font-weight:600; color:var(--muted)}
+    .contact-method label .icon-emoji{font-size:24px}
+    .contact-method input[type="radio"]:checked + label{border-color:var(--accent); background:rgba(101,203,163,.1); color:var(--accent-2)}
+    .contact-method label:hover{border-color:var(--accent-3); background:rgba(101,203,163,.05)}
 
     footer{padding:38px 0; color:#6b7280; font-size:13px}
     footer .wrap{display:flex; justify-content:space-between; align-items:center; gap:10px}
@@ -144,14 +152,17 @@
       .grid-4{grid-template-columns:1fr}
       .kpis{grid-template-columns:1fr}
       .row{grid-template-columns:1fr}
+      .contact-methods{grid-template-columns:repeat(2, 1fr)}
 
       .hero-grid > .panel:first-child > div[style*="display:flex"]{
         flex-direction:column;
         align-items:stretch;
+        max-width:100%;
       }
       .hero-grid > .panel:first-child > div[style*="display:flex"] .btn{
         width:100%;
         justify-content:center;
+        max-width:100%;
       }
     }
 
@@ -384,7 +395,7 @@
         <div class="grid-3">
           <div class="card">
             <h3>Что включает подписка</h3>
-            <ul style="margin-left:18px; color:#d7dde6">
+            <ul style="margin-left:18px; color:#4b5563">
               <li>Еженедельные отчёты: динамика рейтинга, статистика заказов, рекомендации.</li>
               <li>Анализ конкурентов и корректировка стратегии под апдейты алгоритмов.</li>
               <li>Мониторинг активности и предотвращение нарушений политики.</li>
@@ -397,7 +408,7 @@
           <div class="card">
             <h3>Почему это важно</h3>
             <p>Риски неизбежны: жалобы, сбои, сезонность. С «На спокойствие» они не влияют на ваш доход.</p>
-            <ul style="margin-left:18px; color:#d7dde6">
+            <ul style="margin-left:18px; color:#4b5563">
               <li>Никакой бюрократии — всё делаем мы.</li>
               <li>Профиль защищён 24/7, критика решается за сутки.</li>
               <li>Планирование, заполненное расписание и стабильный доход.</li>
@@ -537,9 +548,42 @@
             <div><input class="input" type="text" name="name" placeholder="Имя" required></div>
             <div><input class="input" type="text" name="city" placeholder="Город" required></div>
           </div>
-          <div class="row">
-            <div><input class="input" type="url" name="profile" placeholder="Ссылка на профиль Taskrabbit" required></div>
-            <div><input class="input" type="text" name="contact" placeholder="Контакт (Telegram / Email)" required></div>
+          <div class="row-1">
+            <input class="input" type="url" name="profile" placeholder="Ссылка на профиль Taskrabbit" required>
+          </div>
+          <div class="row-1">
+            <label style="font-weight:600; margin-bottom:8px; display:block; color:var(--text)">Как с вами связаться?</label>
+            <div class="contact-methods">
+              <div class="contact-method">
+                <input type="radio" id="method-phone" name="contact_method" value="phone" onchange="updateContactPlaceholder()" checked>
+                <label for="method-phone">
+                  <span class="icon-emoji">📞</span>
+                  <span>Звонок</span>
+                </label>
+              </div>
+              <div class="contact-method">
+                <input type="radio" id="method-telegram" name="contact_method" value="telegram" onchange="updateContactPlaceholder()">
+                <label for="method-telegram">
+                  <span class="icon-emoji">✈️</span>
+                  <span>Telegram</span>
+                </label>
+              </div>
+              <div class="contact-method">
+                <input type="radio" id="method-whatsapp" name="contact_method" value="whatsapp" onchange="updateContactPlaceholder()">
+                <label for="method-whatsapp">
+                  <span class="icon-emoji">💬</span>
+                  <span>WhatsApp</span>
+                </label>
+              </div>
+              <div class="contact-method">
+                <input type="radio" id="method-email" name="contact_method" value="email" onchange="updateContactPlaceholder()">
+                <label for="method-email">
+                  <span class="icon-emoji">📧</span>
+                  <span>Email</span>
+                </label>
+              </div>
+            </div>
+            <input class="input" type="text" id="contact-input" name="contact" placeholder="Номер телефона" required>
           </div>
           <div class="row-1">
             <textarea class="input" name="notes" rows="4" placeholder="Кратко о нише и целях (необязательно)"></textarea>
@@ -567,12 +611,63 @@
       })
     })
 
-    function submitLead(form){
+    function updateContactPlaceholder() {
+      const contactInput = document.getElementById('contact-input');
+      const selectedMethod = document.querySelector('input[name="contact_method"]:checked').value;
+
+      const placeholders = {
+        phone: { text: 'Номер телефона', type: 'tel' },
+        telegram: { text: '@username или номер телефона', type: 'text' },
+        whatsapp: { text: 'Номер телефона', type: 'tel' },
+        email: { text: 'Email адрес', type: 'email' }
+      };
+
+      contactInput.placeholder = placeholders[selectedMethod].text;
+      contactInput.type = placeholders[selectedMethod].type;
+    }
+
+    async function submitLead(form){
       const data = Object.fromEntries(new FormData(form).entries());
-      console.log('Lead:', data);
       const note = document.getElementById('form-note');
-      note.textContent = 'Спасибо! Заявка отправлена. Мы свяжемся в течение 24 часов.';
-      form.reset();
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      // Disable button and show loading state
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка...';
+      note.textContent = 'Отправляем заявку...';
+      note.style.color = 'var(--accent)';
+
+      try {
+        const response = await fetch('/api/submit-lead', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          note.textContent = result.message || 'Спасибо! Заявка отправлена. Мы свяжемся в течение 24 часов.';
+          note.style.color = 'var(--ok)';
+          form.reset();
+          updateContactPlaceholder(); // Reset to default
+        } else {
+          note.textContent = result.message || 'Произошла ошибка. Пожалуйста, попробуйте позже.';
+          note.style.color = 'var(--warn)';
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        note.textContent = 'Ошибка соединения. Пожалуйста, проверьте интернет и попробуйте снова.';
+        note.style.color = 'var(--warn)';
+      } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+      }
+
       return false;
     }
 
