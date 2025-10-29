@@ -626,13 +626,48 @@
       contactInput.type = placeholders[selectedMethod].type;
     }
 
-    function submitLead(form){
+    async function submitLead(form){
       const data = Object.fromEntries(new FormData(form).entries());
-      console.log('Lead:', data);
       const note = document.getElementById('form-note');
-      note.textContent = 'Спасибо! Заявка отправлена. Мы свяжемся в течение 24 часов.';
-      form.reset();
-      updateContactPlaceholder(); // Reset to default
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      // Disable button and show loading state
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка...';
+      note.textContent = 'Отправляем заявку...';
+      note.style.color = 'var(--accent)';
+
+      try {
+        const response = await fetch('/api/submit-lead', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          note.textContent = result.message || 'Спасибо! Заявка отправлена. Мы свяжемся в течение 24 часов.';
+          note.style.color = 'var(--ok)';
+          form.reset();
+          updateContactPlaceholder(); // Reset to default
+        } else {
+          note.textContent = result.message || 'Произошла ошибка. Пожалуйста, попробуйте позже.';
+          note.style.color = 'var(--warn)';
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        note.textContent = 'Ошибка соединения. Пожалуйста, проверьте интернет и попробуйте снова.';
+        note.style.color = 'var(--warn)';
+      } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+      }
+
       return false;
     }
 
