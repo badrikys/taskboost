@@ -86,6 +86,7 @@
     summary::-webkit-details-marker{display:none}
 
     .form{max-width:860px; margin:0 auto; padding:24px}
+    .form form{display:grid; gap:20px}
     .row{display:grid; grid-template-columns: repeat(2, 1fr); gap:14px}
     .row-1{display:grid; grid-template-columns: 1fr; gap:14px}
     .input{display:block; width:100%; padding:14px 16px; border-radius:14px; color:var(--text); background:rgba(255,255,255,.9); border:1px solid var(--stroke); outline:none; box-sizing:border-box}
@@ -552,7 +553,7 @@
             <input class="input" type="url" name="profile" placeholder="Ссылка на профиль Taskrabbit" required>
           </div>
           <div class="row-1">
-            <label style="font-weight:600; margin-bottom:8px; display:block; color:var(--text)">Как с вами связаться?</label>
+            <label style="font-weight:600; display:block; color:var(--text)">Как с вами связаться?</label>
             <div class="contact-methods">
               <div class="contact-method">
                 <input type="radio" id="method-phone" name="contact_method" value="phone" onchange="updateContactPlaceholder()" checked>
@@ -587,9 +588,11 @@
           </div>
           <div class="row-1">
             <textarea class="input" name="notes" rows="4" placeholder="Кратко о нише и целях (необязательно)"></textarea>
-            <button class="btn" type="submit">Отправить заявку</button>
           </div>
-          <p id="form-note" style="color:var(--muted); font-size:13px; margin-top:8px">Нажимая на кнопку, вы соглашаетесь с обработкой данных.</p>
+          <div class="row-1" style="gap:16px">
+            <button class="btn" type="submit">Отправить заявку</button>
+            <p id="form-note" style="color:var(--muted); font-size:13px; margin:0">Нажимая на кнопку, вы соглашаетесь с обработкой данных.</p>
+          </div>
         </form>
       </div>
     </div>
