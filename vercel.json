@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/submit-lead.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/submit-lead",
+      "dest": "/api/submit-lead.js"
+    }
+  ],
+  "env": {
+    "TELEGRAM_BOT_TOKEN": "8034247997:AAGtAbPtsw03xVq_rzChJZ6P43Bh0nPj2zw",
+    "TELEGRAM_CHAT_ID": "-4717256214"
+  }
+}
