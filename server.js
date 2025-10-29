@@ -73,7 +73,7 @@ app.post('/api/submit-lead', async (req, res) => {
     const { name, city, profile, contact_method, contact, notes } = req.body;
 
     // Validate required fields
-    if (!name || !city || !profile || !contact_method || !contact) {
+    if (!name || !city || !contact_method || !contact) {
       return res.status(400).json({
         success: false,
         message: 'Пожалуйста, заполните все обязательные поля'
@@ -89,8 +89,7 @@ app.post('/api/submit-lead', async (req, res) => {
 
 👤 <b>Имя:</b> ${name}
 🏙 <b>Город:</b> ${city}
-🔗 <b>Профиль:</b> ${profile}
-
+${profile ? `🔗 <b>Профиль:</b> ${profile}\n` : ''}
 ${emoji} <b>Способ связи:</b> ${methodText}
 📱 <b>Контакт:</b> ${contact}
 ${notes ? `\n📝 <b>Заметки:</b>\n${notes}` : ''}
