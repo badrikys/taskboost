@@ -94,6 +94,26 @@
       .kpis{grid-template-columns:1fr 1fr}
     }
 
+    /* Carousel styles */
+    .carousel-container{position:relative; overflow:hidden; margin-top:16px}
+    .carousel-wrapper{display:flex; gap:16px; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory; padding-bottom:10px; scrollbar-width:thin; scrollbar-color:var(--accent) rgba(101,203,163,0.1)}
+    .carousel-wrapper::-webkit-scrollbar{height:8px}
+    .carousel-wrapper::-webkit-scrollbar-track{background:rgba(101,203,163,0.1); border-radius:4px}
+    .carousel-wrapper::-webkit-scrollbar-thumb{background:var(--accent); border-radius:4px}
+    .carousel-wrapper::-webkit-scrollbar-thumb:hover{background:var(--accent-2)}
+    .carousel-item{flex:0 0 calc(33.333% - 11px); scroll-snap-align:start; min-width:280px}
+    .carousel-nav{display:flex; gap:10px; justify-content:center; margin-top:16px}
+    .carousel-nav button{width:40px; height:40px; border-radius:50%; border:1px solid var(--stroke); background:rgba(255,255,255,0.9); color:var(--accent-2); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s ease}
+    .carousel-nav button:hover{background:var(--accent); color:#fff; transform:scale(1.05)}
+    .carousel-nav button:disabled{opacity:0.3; cursor:not-allowed}
+
+    @media (max-width: 980px){
+      .carousel-item{flex:0 0 calc(50% - 8px)}
+    }
+    @media (max-width: 640px){
+      .carousel-item{flex:0 0 calc(100% - 0px)}
+    }
+
     @media (prefers-reduced-motion: no-preference){
       .fade-in{opacity:0; transform: translateY(8px); animation: in .7s ease forwards}
       @keyframes in{to{opacity:1; transform: translateY(0)}}
@@ -209,21 +229,37 @@
         <div class="divider"></div>
         <h3>Реальные доходы наших клиентов</h3>
         <p style="color:var(--muted); margin-bottom:20px">Скриншоты с аккаунтов Taskrabbit — выручка по месяцам</p>
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-top:16px">
-          <div class="card" style="padding:0; overflow:hidden">
-            <img src="img/result - 1.jpg" alt="Результат клиента 1" style="width:100%; height:auto; display:block; border-radius:18px">
+        <div class="carousel-container">
+          <div class="carousel-wrapper" id="incomeCarousel">
+            <div class="carousel-item">
+              <div class="card" style="padding:0; overflow:hidden">
+                <img src="img/result - 1.jpg" alt="Результат клиента 1" style="width:100%; height:auto; display:block; border-radius:18px">
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="card" style="padding:0; overflow:hidden">
+                <img src="img/result - 2.jpg" alt="Результат клиента 2" style="width:100%; height:auto; display:block; border-radius:18px">
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="card" style="padding:0; overflow:hidden">
+                <img src="img/result - 3.jpg" alt="Результат клиента 3" style="width:100%; height:auto; display:block; border-radius:18px">
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="card" style="padding:0; overflow:hidden">
+                <img src="img/result - 4.jpg" alt="Результат клиента 4" style="width:100%; height:auto; display:block; border-radius:18px">
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="card" style="padding:0; overflow:hidden">
+                <img src="img/result - 5.jpg" alt="Результат клиента 5" style="width:100%; height:auto; display:block; border-radius:18px">
+              </div>
+            </div>
           </div>
-          <div class="card" style="padding:0; overflow:hidden">
-            <img src="img/result - 2.jpg" alt="Результат клиента 2" style="width:100%; height:auto; display:block; border-radius:18px">
-          </div>
-          <div class="card" style="padding:0; overflow:hidden">
-            <img src="img/result - 3.jpg" alt="Результат клиента 3" style="width:100%; height:auto; display:block; border-radius:18px">
-          </div>
-          <div class="card" style="padding:0; overflow:hidden">
-            <img src="img/result - 4.jpg" alt="Результат клиента 4" style="width:100%; height:auto; display:block; border-radius:18px">
-          </div>
-          <div class="card" style="padding:0; overflow:hidden">
-            <img src="img/result - 5.jpg" alt="Результат клиента 5" style="width:100%; height:auto; display:block; border-radius:18px">
+          <div class="carousel-nav">
+            <button onclick="scrollCarousel('incomeCarousel', -1)" aria-label="Предыдущий">‹</button>
+            <button onclick="scrollCarousel('incomeCarousel', 1)" aria-label="Следующий">›</button>
           </div>
         </div>
       </div>
@@ -475,6 +511,16 @@
     }
 
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Carousel navigation
+    function scrollCarousel(carouselId, direction) {
+      const carousel = document.getElementById(carouselId);
+      const scrollAmount = carousel.offsetWidth;
+      carousel.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+      });
+    }
   </script>
 </body>
 </html>
