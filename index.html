@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Taskboost — профессиональное продвижение профилей на Taskrabbit</title>
   <meta name="description" content="Taskboost — сервис профессионального продвижения профилей на Taskrabbit. Вывод в ТОП, рост ставки, поток заказов и полное сопровождение без риска блокировок." />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Taskboost — профессиональное продвижение профилей на Taskrabbit" />
+  <meta property="og:description" content="Выводим ваш профиль в ТОП, повышаем ставку и загружаем заказами. Быстро, безопасно и без риска блокировок." />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Taskboost — профессиональное продвижение профилей на Taskrabbit" />
+  <meta name="twitter:description" content="Выводим ваш профиль в ТОП, повышаем ставку и загружаем заказами. Быстро, безопасно и без риска блокировок." />
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2322c55e'/><text y='75' font-size='70' text-anchor='middle' x='50' fill='%23fff'>T</text></svg>" />
   <style>
     :root{
       --bg-0: rgba(28,30,33,0.85);         /* полупрозрачный серый */
@@ -85,11 +98,19 @@
 
     footer{padding:38px 0; color:#a8b0bb; font-size:13px}
 
+    /* Mobile menu */
+    .menu-toggle{display:none; background:none; border:none; color:var(--text); font-size:24px; cursor:pointer; padding:8px}
+
     @media (max-width: 980px){
       .hero-grid{grid-template-columns:1fr}
       .grid-3{grid-template-columns:1fr}
       .grid-4{grid-template-columns:1fr 1fr}
       .kpis{grid-template-columns:1fr 1fr}
+
+      .menu-toggle{display:block}
+      .menu{display:none; position:absolute; top:64px; left:0; right:0; flex-direction:column; background:var(--bg-0); border-bottom:1px solid var(--stroke); padding:16px 20px}
+      .menu.active{display:flex}
+      .menu a{padding:12px 10px}
     }
 
     @media (prefers-reduced-motion: no-preference){
@@ -103,8 +124,23 @@
   <!-- Навигация -->
   <nav class="nav">
     <div class="wrap">
-      <div class="brand"><i></i><span>Taskboost</span></div>
-      <div class="menu">
+      <div class="brand">
+        <i>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="7" fill="url(#icon-gradient)"/>
+            <path d="M9 9h10M14 9v10" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="icon-gradient" x1="0" y1="0" x2="28" y2="28">
+                <stop offset="0%" stop-color="#86efac"/>
+                <stop offset="100%" stop-color="#22c55e"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </i>
+        <span>Taskboost</span>
+      </div>
+      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Открыть меню">☰</button>
+      <div class="menu" id="main-menu">
         <a href="#how">Как работает</a>
         <a href="#benefits">Результаты</a>
         <a href="#services">Услуги</a>
@@ -434,31 +470,136 @@
   </section>
 
   <footer>
-    <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; gap:10px">
-      <div style="display:flex; align-items:center; gap:10px" class="brand"><i></i><span>Taskboost</span></div>
+    <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap">
+      <div style="display:flex; align-items:center; gap:10px" class="brand">
+        <i>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="7" fill="url(#footer-icon-gradient)"/>
+            <path d="M9 9h10M14 9v10" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="footer-icon-gradient" x1="0" y1="0" x2="28" y2="28">
+                <stop offset="0%" stop-color="#86efac"/>
+                <stop offset="100%" stop-color="#22c55e"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </i>
+        <span>Taskboost</span>
+      </div>
       <div>© <span id="y"></span> Taskboost. Все права защищены.</div>
     </div>
   </footer>
 
   <script>
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const id = a.getAttribute('href').slice(1);
-        const el = document.getElementById(id);
-        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
-      })
-    })
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        try {
+          const id = a.getAttribute('href').slice(1);
+          const el = document.getElementById(id);
+          if (el) {
+            e.preventDefault();
+            el.scrollIntoView({behavior: 'smooth', block: 'start'});
+            // Close mobile menu after click
+            const menu = document.getElementById('main-menu');
+            if (menu && menu.classList.contains('active')) {
+              menu.classList.remove('active');
+            }
+          }
+        } catch (error) {
+          console.error('Navigation error:', error);
+        }
+      });
+    });
 
-    function submitLead(form){
-      const data = Object.fromEntries(new FormData(form).entries());
-      console.log('Lead:', data);
-      const note = document.getElementById('form-note');
-      note.textContent = 'Спасибо! Заявка отправлена. Мы свяжемся в течение 24 часов.';
-      form.reset();
-      return false;
+    // Toggle mobile menu
+    function toggleMenu() {
+      try {
+        const menu = document.getElementById('main-menu');
+        if (menu) {
+          menu.classList.toggle('active');
+        }
+      } catch (error) {
+        console.error('Menu toggle error:', error);
+      }
     }
 
-    document.getElementById('y').textContent = new Date().getFullYear();
+    // Form submission handler
+    function submitLead(form) {
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const note = document.getElementById('form-note');
+
+        // Validate required fields
+        if (!data.name || !data.city || !data.profile || !data.contact) {
+          if (note) {
+            note.textContent = 'Пожалуйста, заполните все обязательные поля.';
+            note.style.color = '#f59e0b';
+          }
+          return false;
+        }
+
+        // Validate URL
+        try {
+          new URL(data.profile);
+        } catch {
+          if (note) {
+            note.textContent = 'Пожалуйста, введите корректную ссылку на профиль.';
+            note.style.color = '#f59e0b';
+          }
+          return false;
+        }
+
+        // Log data (replace with actual API call)
+        console.log('Lead submitted:', data);
+
+        // Here you would normally send data to your backend:
+        // fetch('/api/submit-lead', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify(data)
+        // });
+
+        if (note) {
+          note.textContent = 'Спасибо! Заявка отправлена. Мы свяжемся в течение 24 часов.';
+          note.style.color = '#10b981';
+        }
+
+        form.reset();
+        return false;
+      } catch (error) {
+        console.error('Form submission error:', error);
+        const note = document.getElementById('form-note');
+        if (note) {
+          note.textContent = 'Произошла ошибка. Пожалуйста, попробуйте позже.';
+          note.style.color = '#ef4444';
+        }
+        return false;
+      }
+    }
+
+    // Set current year
+    try {
+      const yearElement = document.getElementById('y');
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+      }
+    } catch (error) {
+      console.error('Year display error:', error);
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      try {
+        const menu = document.getElementById('main-menu');
+        const toggle = document.querySelector('.menu-toggle');
+        if (menu && toggle && !menu.contains(event.target) && !toggle.contains(event.target)) {
+          menu.classList.remove('active');
+        }
+      } catch (error) {
+        console.error('Menu close error:', error);
+      }
+    });
   </script>
 </body>
 </html>
