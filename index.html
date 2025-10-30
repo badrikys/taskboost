@@ -1,858 +1,155 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Taskboost — профессиональное продвижение профилей на Taskrabbit</title>
-  <meta name="description" content="Taskboost — сервис профессионального продвижения профилей на Taskrabbit. Вывод в ТОП, рост ставки, поток заказов и полное сопровождение без риска блокировок." />
-  <style>
-    :root{
-      --bg-0: #ffffff;         /* белый фон */
-      --bg-glass: rgba(101,203,163,0.05);
-      --stroke: rgba(101,203,163,0.25);
-      --text: #1a1a1a;
-      --muted: #6b7280;
-      --accent: #65cba3;       /* основной цвет */
-      --accent-2: #4fb88f;     /* затемнённый */
-      --accent-3: #7fd9b5;     /* светлый */
-      --warn: #f59e0b;
-      --ok: #65cba3;
-    }
-    html,body{
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", sans-serif;
-      /* Светлая фактура с мягкими акцентами */
-      background:
-        radial-gradient(1200px 1200px at 70% -10%, rgba(101,203,163,0.08), transparent 60%),
-        radial-gradient(800px 800px at 10% 110%, rgba(101,203,163,0.05), transparent 50%),
-        repeating-linear-gradient(45deg, rgba(101,203,163,0.02) 0 2px, rgba(255,255,255,0.02) 2px 4px),
-        radial-gradient(circle at 20% 30%, rgba(101,203,163,0.03), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(101,203,163,0.02), transparent 40%),
-        var(--bg-0);
-      color: var(--text);
-      margin:0; padding:0; line-height:1.5;
-      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
-    }
-    .wrap{max-width:1160px; margin:0 auto; padding:0 20px;}
-    section{padding:72px 0; position:relative;}
-
-    .glass{background: rgba(255,255,255,0.9); border:1px solid var(--stroke); border-radius:24px; box-shadow: 0 10px 40px rgba(101,203,163,0.15); -webkit-backdrop-filter:saturate(160%) blur(18px); backdrop-filter:saturate(160%) blur(18px);}
-    .chip{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--stroke); background: rgba(101,203,163,0.1); color:var(--accent-2); font-size:12px; letter-spacing:.02em; font-weight:600;}
-    .divider{height:1px; background:linear-gradient(90deg, transparent, var(--stroke), transparent); margin:28px 0}
-
-    h1{font-size: clamp(34px, 5vw, 56px); line-height:1.05; margin:0 0 16px}
-    h2{font-size: clamp(24px, 3.4vw, 36px); line-height:1.15; margin:0 0 10px}
-    h3{font-size: clamp(18px, 2.4vw, 22px); margin:0 0 8px}
-    p.lead{color:#4b5563; font-size: clamp(16px, 2.2vw, 18px)}
-
-    .btn{display:inline-flex; align-items:center; gap:10px; padding:14px 20px; border-radius:16px; text-decoration:none; color:#ffffff; font-weight:650; background: linear-gradient(180deg, var(--accent), var(--accent-2)); border:1px solid var(--accent-2); box-shadow: 0 6px 16px rgba(101,203,163,.3); box-sizing:border-box}
-    .btn:hover{transform: translateY(-1px); box-shadow: 0 10px 24px rgba(101,203,163,.4)}
-    .btn.secondary{background:rgba(255,255,255,0.8); color:var(--text); border:1px solid var(--stroke)}
-
-    .nav{position:sticky; top:0; z-index:40; backdrop-filter:saturate(160%) blur(10px); background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85)); border-bottom:1px solid var(--stroke)}
-    .nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px}
-    .brand{display:flex; align-items:center; gap:10px; font-weight:700; color:var(--text);}
-    .brand img{width:40px; height:40px; border-radius:8px; object-fit:cover;}
-    .brand i{width:28px; height:28px; border-radius:8px; background: radial-gradient(120% 120% at 20% 10%, var(--accent-3), var(--accent)); border:1px solid var(--stroke); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2)}
-    .menu{display:flex; gap:16px}
-    .menu a{color:var(--muted); text-decoration:none; font-size:14px; padding:8px 10px; border-radius:10px}
-    .menu a:hover{background:rgba(101,203,163,0.1); color:var(--accent-2)}
-
-    /* Mobile menu toggle button */
-    .menu-toggle{display:none; flex-direction:column; gap:4px; padding:8px; cursor:pointer; background:none; border:none; z-index:50}
-    .menu-toggle span{width:24px; height:2px; background:var(--text); transition:all 0.3s ease; border-radius:2px}
-    .menu-toggle.active span:nth-child(1){transform:rotate(45deg) translate(6px, 6px)}
-    .menu-toggle.active span:nth-child(2){opacity:0}
-    .menu-toggle.active span:nth-child(3){transform:rotate(-45deg) translate(6px, -6px)}
-
-    .hero{padding:96px 0 56px}
-    .hero-grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:28px; align-items:center}
-    .hero .panel{padding:28px;}
-    .badges{display:flex; gap:10px; flex-wrap:wrap; margin:10px 0 18px}
-    .kpis{display:grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top:16px}
-    .kpis .k{padding:16px; border-radius:16px; border:1px solid var(--stroke); background:rgba(101,203,163,.08)}
-    .k .v{font-size:22px; font-weight:750; color:var(--accent-2)}
-    .k .l{font-size:12px; color:var(--muted)}
-
-    .grid-3{display:grid; grid-template-columns: repeat(3,1fr); gap:16px}
-    .grid-4{display:grid; grid-template-columns: repeat(4,1fr); gap:16px}
-
-    .card{padding:22px; border-radius:18px; border:1px solid var(--stroke); background:rgba(101,203,163,.05)}
-    .icon{width:32px; height:32px; border-radius:10px; display:inline-grid; place-content:center; background:linear-gradient(180deg, var(--accent-3), var(--accent)); border:1px solid var(--stroke); color:#fff; font-weight:700;}
-
-    .faq{max-width:900px; margin:0 auto}
-    details{border:1px solid var(--stroke); border-radius:14px; padding:16px 18px; background:rgba(101,203,163,.05)}
-    details+details{margin-top:10px}
-    summary{cursor:pointer; list-style:none; font-weight:600; color:var(--text)}
-    summary::-webkit-details-marker{display:none}
-
-    .form{max-width:860px; margin:0 auto; padding:24px}
-    .form form{display:grid; gap:20px}
-    .row{display:grid; grid-template-columns: repeat(2, 1fr); gap:14px}
-    .row-1{display:grid; grid-template-columns: 1fr; gap:14px}
-    .input{display:block; width:100%; padding:14px 16px; border-radius:14px; color:var(--text); background:rgba(255,255,255,.9); border:1px solid var(--stroke); outline:none; box-sizing:border-box}
-    .input::placeholder{color:#9ca3af}
-    .input:focus{border-color:var(--accent); box-shadow: 0 0 0 3px rgba(101,203,163,.1)}
-
-    .contact-methods{display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-bottom:14px}
-    .contact-method{position:relative}
-    .contact-method input[type="radio"]{position:absolute; opacity:0; width:0; height:0}
-    .contact-method label{display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 8px; border-radius:12px; border:1px solid var(--stroke); background:rgba(255,255,255,.9); cursor:pointer; transition:all .2s ease; text-align:center; font-size:13px; font-weight:600; color:var(--muted)}
-    .contact-method label .icon-emoji{font-size:24px}
-    .contact-method input[type="radio"]:checked + label{border-color:var(--accent); background:rgba(101,203,163,.1); color:var(--accent-2)}
-    .contact-method label:hover{border-color:var(--accent-3); background:rgba(101,203,163,.05)}
-
-    .success-banner{display:none; padding:24px; border-radius:16px; background:linear-gradient(135deg, rgba(101,203,163,0.15), rgba(101,203,163,0.05)); border:2px solid var(--accent); margin-bottom:20px; animation:slideIn .5s ease}
-    .success-banner.show{display:block}
-    .success-banner h3{color:var(--accent-2); margin:0 0 8px; display:flex; align-items:center; gap:10px; font-size:20px}
-    .success-banner p{margin:4px 0; color:var(--text); line-height:1.6}
-    @keyframes slideIn{from{opacity:0; transform:translateY(-10px)} to{opacity:1; transform:translateY(0)}}
-
-    footer{padding:38px 0; color:#6b7280; font-size:13px}
-    footer .wrap{display:flex; justify-content:space-between; align-items:center; gap:10px}
-
-    /* Tablet and below */
-    @media (max-width: 980px){
-      .hero-grid{grid-template-columns:1fr}
-      .grid-3{grid-template-columns:1fr}
-      .grid-4{grid-template-columns:1fr 1fr}
-      .kpis{grid-template-columns:1fr 1fr}
-    }
-
-    /* Mobile navigation */
-    @media (max-width: 768px){
-      .menu-toggle{display:flex}
-      .menu{
-        position:fixed;
-        top:64px;
-        right:-100%;
-        width:280px;
-        height:calc(100vh - 64px);
-        background:rgba(255,255,255,0.98);
-        backdrop-filter:saturate(160%) blur(20px);
-        flex-direction:column;
-        padding:24px;
-        gap:8px;
-        border-left:1px solid var(--stroke);
-        transition:right 0.3s ease;
-        box-shadow:-4px 0 20px rgba(0,0,0,0.1);
-      }
-      .menu.active{right:0}
-      .menu a{display:block; padding:12px 16px; border-radius:12px; font-size:16px}
-      .menu a.btn{width:100%; justify-content:center; margin-top:8px}
-
-      section{padding:48px 0}
-      .hero{padding:64px 0 40px}
-      .glass{padding:20px!important}
-      .wrap{padding:0 16px}
-      .form{padding:20px!important}
-
-      footer .wrap{flex-direction:column; text-align:center; gap:16px}
-    }
-
-    /* Small mobile devices */
-    @media (max-width: 480px){
-      section{padding:36px 0}
-      .hero{padding:48px 0 32px}
-      .glass{padding:16px!important}
-      .form{padding:16px!important}
-
-      .grid-4{grid-template-columns:1fr}
-      .kpis{grid-template-columns:1fr}
-      .row{grid-template-columns:1fr}
-      .contact-methods{grid-template-columns:repeat(2, 1fr)}
-
-      .hero-grid > .panel:first-child > div[style*="display:flex"]{
-        flex-direction:column;
-        align-items:stretch;
-        max-width:100%;
-      }
-      .hero-grid > .panel:first-child > div[style*="display:flex"] .btn{
-        width:100%;
-        justify-content:center;
-        max-width:100%;
-      }
-    }
-
-    /* Carousel styles */
-    .carousel-container{position:relative; overflow:hidden; margin-top:16px}
-    .carousel-wrapper{display:flex; gap:16px; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory; padding-bottom:10px; scrollbar-width:thin; scrollbar-color:var(--accent) rgba(101,203,163,0.1)}
-    .carousel-wrapper::-webkit-scrollbar{height:8px}
-    .carousel-wrapper::-webkit-scrollbar-track{background:rgba(101,203,163,0.1); border-radius:4px}
-    .carousel-wrapper::-webkit-scrollbar-thumb{background:var(--accent); border-radius:4px}
-    .carousel-wrapper::-webkit-scrollbar-thumb:hover{background:var(--accent-2)}
-    .carousel-item{flex:0 0 calc(33.333% - 11px); scroll-snap-align:start; min-width:280px}
-    .carousel-nav{display:flex; gap:10px; justify-content:center; margin-top:16px}
-    .carousel-nav button{width:40px; height:40px; border-radius:50%; border:1px solid var(--stroke); background:rgba(255,255,255,0.9); color:var(--accent-2); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s ease}
-    .carousel-nav button:hover{background:var(--accent); color:#fff; transform:scale(1.05)}
-    .carousel-nav button:disabled{opacity:0.3; cursor:not-allowed}
-    .review-card{display:flex; flex-direction:column; gap:14px; height:100%}
-    .review-rating{margin-top:auto; padding-top:10px; color:var(--accent); font-size:18px}
-
-    @media (max-width: 980px){
-      .carousel-item{flex:0 0 calc(50% - 8px)}
-    }
-    @media (max-width: 640px){
-      .carousel-item{flex:0 0 calc(100% - 0px)}
-      .review-card{height:auto}
-      .review-rating{margin-top:12px}
-    }
-
-    @media (prefers-reduced-motion: no-preference){
-      .fade-in{opacity:0; transform: translateY(8px); animation: in .7s ease forwards}
-      @keyframes in{to{opacity:1; transform: translateY(0)}}
-      .btn{transition: transform .2s ease, box-shadow .2s ease}
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taskboost — бесплатный аудит Taskrabbit-профиля за 24 часа</title>
+  <meta name="description" content="Taskboost проводит бесплатный аудит профиля Taskrabbit за 24 часа: персональные правки карточки, стратегия ставок и расписания, поведенческая оптимизация и аналитика без нарушений правил платформы.">
+  <link rel="stylesheet" href="styles.css">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://taskboost.site/">
+  <meta property="og:title" content="Taskboost — бесплатный аудит Taskrabbit-профиля за 24 часа">
+  <meta property="og:description" content="Персональные правки карточки, стратегия ставок и расписания без «серых» методов. Первые улучшения за 10–14 дней при соблюдении рекомендаций.">
+  <meta property="og:image" content="https://taskboost.site/img/logo.jpg">
+  <link rel="canonical" href="https://taskboost.site/">
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXXX');
+  </script>
+  <!-- End Google Tag Manager -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Это легально?","acceptedAnswer":{"@type":"Answer","text":"Мы работаем в рамках публичных правил платформы: улучшаем контент профиля, прайсинг, расписание, скорость ответа и анализируем метрики."}},
+      {"@type":"Question","name":"Когда будет результат?","acceptedAnswer":{"@type":"Answer","text":"Первые сдвиги обычно за 10–14 дней, зависит от ниши, города и времени онлайн."}},
+      {"@type":"Question","name":"Возврат средств?","acceptedAnswer":{"@type":"Answer","text":"Если прогресса по согласованным метрикам нет 30 дней — частичный или полный возврат в соответствии с условиями."}},
+      {"@type":"Question","name":"Вы аффилированы с Taskrabbit?","acceptedAnswer":{"@type":"Answer","text":"Нет. Taskboost — независимый сервис."}}
+    ]
+  }
+  </script>
 </head>
 <body>
-  <!-- Навигация -->
-  <nav class="nav">
-    <div class="wrap">
-      <div class="brand"><img src="img/logo.jpg" alt="Taskboost logo"><span>Taskboost</span></div>
-      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <div class="menu" id="menu">
-        <a href="#how" onclick="closeMenu()">Как работает</a>
-        <a href="#benefits" onclick="closeMenu()">Результаты</a>
-        <a href="#reviews" onclick="closeMenu()">Отзывы</a>
-        <a href="#services" onclick="closeMenu()">Услуги</a>
-        <a href="#calm-subscription" onclick="closeMenu()">На спокойствие</a>
-        <a href="#pricing" onclick="closeMenu()">Стоимость</a>
-        <a href="#faq" onclick="closeMenu()">FAQ</a>
-        <a href="#apply" class="btn" style="padding:8px 14px" onclick="closeMenu()">Начать</a>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <header>
+    <nav class="nav" aria-label="Основная">
+      <span class="nav-brand">Taskboost</span>
+      <div>
+        <a href="#hero">Главная</a>
+        <a href="#benefits">Что получите</a>
+        <a href="#how">Как это работает</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#faq">FAQ</a>
+        <a href="#lead-form">Получить аудит</a>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
+  <main>
+    <section id="hero" class="section hero">
+      <h1>Бесплатный аудит Taskrabbit-профиля за 24 часа</h1>
+      <p class="sub">Персональные правки карточки, стратегия ставок и расписания — без «серых» методов. Первые улучшения обычно видны за 10–14 дней при соблюдении рекомендаций.</p>
+      <ul class="micro-trust">
+        <li>3+ года экспертизы</li><li>150+ клиентов</li><li>Еженедельные отчёты</li>
+      </ul>
+      <div>
+        <a href="#lead-form" class="btn btn-primary" id="cta-hero">Получить аудит бесплатно</a>
+        <a href="#cases" class="link-secondary">Посмотреть кейсы</a>
+      </div>
+    </section>
 
-  <!-- HERO -->
-  <section class="hero wrap" id="home">
-    <div class="hero-grid">
-      <div class="panel glass fade-in">
-        <span class="chip">Профессиональное продвижение профилей на Taskrabbit</span>
-        <h1>Выводим ваш профиль в ТОП, повышаем ставку и загружаем заказами</h1>
-        <p class="lead">Быстро, безопасно и без риска блокировок. Индивидуальная стратегия, анализ конкурентов и мягкая автоматика 24/7.</p>
-        <div style="display:flex; gap:12px; margin-top:18px">
-          <a href="#apply" class="btn">Начать сейчас</a>
-          <a href="#how" class="btn secondary">Как это работает</a>
-        </div>
-        <div class="kpis">
-          <div class="k"><div class="v">3 недели</div><div class="l">до первой страницы поиска</div></div>
-          <div class="k"><div class="v">2–3×</div><div class="l">рост средней ставки</div></div>
-          <div class="k"><div class="v">7 дней</div><div class="l">расписание вперёд</div></div>
-        </div>
-      </div>
-      <div class="panel glass fade-in" style="display:grid; gap:14px">
-        <div class="card"><h3>Проблемы, которые решаем</h3>
-          <ul style="margin:8px 0 0 18px; color:#4b5563">
-            <li>Нет заказов, хотя вы онлайн</li>
-            <li>Низкая ставка относительно конкурентов</li>
-            <li>Потеряли профиль/рейтинг и стабильный доход</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Что получаете</h3>
-          <ul style="margin:8px 0 0 18px; color:#4b5563">
-            <li><strong>Профиль на первой странице поиска за 3 недели</strong></li>
-            <li><strong>Ставку выше средней</strong> уже к концу первого месяца</li>
-            <li><strong>Полностью заполненное расписание</strong> заказов на 7 дней вперёд</li>
-            <li>Анализ конкурентов и индивидуальная стратегия под вашу нишу</li>
-            <li>Возможность продвижения даже в <strong>закрытых категориях</strong> (напр., IKEA Assembly &amp; Mounting)</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section id="benefits" class="section grid-2">
+      <h2>Что вы получите</h2>
+      <ul class="benefits">
+        <li>Видимость в релевантных категориях/зипкодах (при условиях)</li>
+        <li>Рост средней ставки (+20–80% за 4–8 недель)</li>
+        <li>Заполненное расписание на 5–7 дней вперёд</li>
+        <li>Индивидуальная стратегия под нишу/город</li>
+        <li>Еженедельные отчёты и корректировки</li>
+      </ul>
+    </section>
 
-  <!-- Как работает -->
-  <section id="how">
-    <div class="wrap">
-      <div class="glass" style="padding:28px">
-        <h2>Как работает Taskboost</h2>
-        <p class="lead">Мы объединили многолетний опыт, точную аналитику и ИИ, чтобы стабильно выводить профили в ТОП и удерживать их там.</p>
-        <div class="divider"></div>
-        <div class="grid-4">
-          <div class="card">
-            <span class="icon">1</span>
-            <h3>Индивидуальная модель продвижения</h3>
-            <p>Наш ИИ, обученный на паттернах ранжирования Taskrabbit, анализирует профиль и конкурентов, выстраивает стратегию активности и работает 24/7. Моделирует естественный интерес пользователей, благодаря чему платформа считает профиль востребованным.</p>
-          </div>
-          <div class="card">
-            <span class="icon">2</span>
-            <h3>Партнёрская сеть (1500+ профилей)</h3>
-            <p>Сотрудничаем с реальными владельцами клиентских аккаунтов со стажем &gt;1 года. Они оформляют безопасные заказы без выезда и оставляют органичные отзывы по расписанию, рассчитанному ИИ.</p>
-          </div>
-          <div class="card">
-            <span class="icon">3</span>
-            <h3>Контроль специалистов</h3>
-            <p>Эксперты Taskboost наблюдают за процессом и адаптируют стратегию к изменениям алгоритмов и сезонности, обеспечивая естественный рост.</p>
-          </div>
-          <div class="card">
-            <span class="icon">4</span>
-            <h3>Актуальные инсайты</h3>
-            <p>Мы оперативно учитываем обновления системы и тренды платформы, чтобы знать сегодня, что будет важно завтра.</p>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <div class="card" style="display:flex; align-items:center; gap:14px">
-          <div class="icon">⚙️</div>
-          <p style="margin:0">Taskrabbit — идеальная платформа для старта бизнеса без рекламных бюджетов. <strong>Taskboost</strong> помогает пройти путь развития за недели, а не месяцы.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section id="how" class="section steps">
+      <h2>Как это работает</h2>
+      <ol>
+        <li><strong>Аудит и гипотезы.</strong> Карточка, фото, категории, прайсинг, расписание, скорость ответа.</li>
+        <li><strong>Внедрение рекомендаций.</strong> Контент, ставки/временные окна, шаблоны откликов.</li>
+        <li><strong>Поведенческая оптимизация.</strong> SLA ответов, окна спроса, ретеншн/повторные брони — в рамках правил платформы.</li>
+        <li><strong>Аналитика еженедельно.</strong> Позиции, CTR профиля, конверсия в бронь, загрузка — с корректировками.</li>
+      </ol>
+    </section>
 
-  <!-- Наши результаты / кейсы -->
-  <section id="cases">
-    <div class="wrap">
-      <div class="glass" style="padding:28px">
-        <h2>Наши результаты</h2>
-        <p class="lead">Каждый кейс — подтверждение эффективности системы. Реальные скриншоты доходов наших клиентов с Taskrabbit.</p>
-        <div class="grid-3" style="margin-top:12px">
-          <div class="card"><h3>Рост рейтинга и отзывов</h3><p>Плавная динамика, естественный паттерн.</p></div>
-          <div class="card"><h3>Увеличение средней ставки</h3><p>В 2–3 раза за счёт доверия и видимости.</p></div>
-          <div class="card"><h3>Заполненное расписание</h3><p>С учётом вашего времени и нишевых окон спроса.</p></div>
-        </div>
-        <div class="divider"></div>
-        <h3>Реальные доходы наших клиентов</h3>
-        <p style="color:var(--muted); margin-bottom:20px">Скриншоты с аккаунтов Taskrabbit — выручка по месяцам</p>
-        <div class="carousel-container">
-          <div class="carousel-wrapper" id="incomeCarousel">
-            <div class="carousel-item">
-              <div class="card" style="padding:0; overflow:hidden">
-                <img src="img/result - 1.jpg" alt="Результат клиента 1" style="width:100%; height:auto; display:block; border-radius:18px">
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="card" style="padding:0; overflow:hidden">
-                <img src="img/result - 2.jpg" alt="Результат клиента 2" style="width:100%; height:auto; display:block; border-radius:18px">
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="card" style="padding:0; overflow:hidden">
-                <img src="img/result - 3.jpg" alt="Результат клиента 3" style="width:100%; height:auto; display:block; border-radius:18px">
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="card" style="padding:0; overflow:hidden">
-                <img src="img/result - 4.jpg" alt="Результат клиента 4" style="width:100%; height:auto; display:block; border-radius:18px">
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="card" style="padding:0; overflow:hidden">
-                <img src="img/result - 5.jpg" alt="Результат клиента 5" style="width:100%; height:auto; display:block; border-radius:18px">
-              </div>
-            </div>
-          </div>
-          <div class="carousel-nav">
-            <button onclick="scrollCarousel('incomeCarousel', -1)" aria-label="Предыдущий">‹</button>
-            <button onclick="scrollCarousel('incomeCarousel', 1)" aria-label="Следующий">›</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Почему нам доверяют -->
-  <section id="trust">
-    <div class="wrap">
-      <div class="glass" style="padding:28px">
-        <h2>Почему нам доверяют</h2>
-        <div class="grid-4" style="margin-top:10px">
-          <div class="card"><h3>3+ года опыта</h3><p>Глубокое знание алгоритмов и нюансов экосистемы.</p></div>
-          <div class="card"><h3>150+ клиентов</h3><p>США и Канада, расширяемся в Великобританию.</p></div>
-          <div class="card"><h3>Сеть 1500+ аккаунтов</h3><p>Для безопасной поддержки продвижения.</p></div>
-          <div class="card"><h3>Актуальные данные</h3><p>Быстро реагируем на апдейты платформы.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Отзывы клиентов -->
-  <section id="reviews">
-    <div class="wrap">
-      <div class="glass" style="padding:28px">
-        <h2>Отзывы клиентов</h2>
-        <p class="lead">Реальные истории людей, которые вышли в ТОП и кратно увеличили доход благодаря Taskboost</p>
-        <div class="divider"></div>
-        <div class="carousel-container">
-          <div class="carousel-wrapper" id="reviewsCarousel">
-            <div class="carousel-item">
-              <div class="card review-card">
-                <div style="display:flex; align-items:center; gap:12px">
-                  <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, var(--accent-3), var(--accent)); display:grid; place-content:center; font-size:20px; font-weight:700; color:#fff">М</div>
-                  <div>
-                    <h3 style="margin:0">Михаил</h3>
-                    <p style="margin:0; font-size:13px; color:var(--muted)">Furniture Assembly, Нью-Йорк</p>
-                  </div>
-                </div>
-                <p style="color:var(--text); line-height:1.5; margin:0; font-size:14px">Работал на Taskrabbit больше года, но заказов было мало — 2-3 в неделю максимум. После подключения Taskboost за 3 недели вышел на первую страницу поиска. Сейчас расписание забито на неделю вперёд, ставка выросла с $45 до $95 в час. Окупилось за первую же неделю!</p>
-                <div class="review-rating">
-                  <span>★★★★★</span>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="card review-card">
-                <div style="display:flex; align-items:center; gap:12px">
-                  <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, var(--accent-3), var(--accent)); display:grid; place-content:center; font-size:20px; font-weight:700; color:#fff">А</div>
-                  <div>
-                    <h3 style="margin:0">Анна</h3>
-                    <p style="margin:0; font-size:13px; color:var(--muted)">Cleaning, Лос-Анджелес</p>
-                  </div>
-                </div>
-                <p style="color:var(--text); line-height:1.5; margin:0; font-size:14px">Скептически относилась к подобным сервисам, но решила попробовать. Результат превзошёл ожидания! За 2 месяца мой доход вырос с $4,000 до $12,000. Особенно впечатлила подписка «На спокойствие» — ребята сами общаются с поддержкой, решают все вопросы. Я просто работаю и получаю стабильный поток клиентов.</p>
-                <div class="review-rating">
-                  <span>★★★★★</span>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="card review-card">
-                <div style="display:flex; align-items:center; gap:12px">
-                  <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, var(--accent-3), var(--accent)); display:grid; place-content:center; font-size:20px; font-weight:700; color:#fff">Д</div>
-                  <div>
-                    <h3 style="margin:0">Дмитрий</h3>
-                    <p style="margin:0; font-size:13px; color:var(--muted)">Moving Help, Чикаго</p>
-                  </div>
-                </div>
-                <p style="color:var(--text); line-height:1.5; margin:0; font-size:14px">После блокировки аккаунта думал, что всё — конец бизнесу. Taskboost помогли создать новый профиль и вывели его в ТОП за месяц. Сейчас зарабатываю даже больше, чем на старом аккаунте — около $15,000 в месяц. Безопасность их методов проверена временем, никаких проблем уже полгода.</p>
-                <div class="review-rating">
-                  <span>★★★★★</span>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="card review-card">
-                <div style="display:flex; align-items:center; gap:12px">
-                  <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, var(--accent-3), var(--accent)); display:grid; place-content:center; font-size:20px; font-weight:700; color:#fff">Е</div>
-                  <div>
-                    <h3 style="margin:0">Елена</h3>
-                    <p style="margin:0; font-size:13px; color:var(--muted)">General Handyman, Торонто</p>
-                  </div>
-                </div>
-                <p style="color:var(--text); line-height:1.5; margin:0; font-size:14px">Только зарегистрировалась на Taskrabbit и не знала, с чего начать. В первый месяц без Taskboost было всего 3 заказа. Решила инвестировать в продвижение — и не пожалела. Сейчас у меня 50+ отзывов, стабильный поток заказов, ставка $75/час. Для новичков это просто спасение!</p>
-                <div class="review-rating">
-                  <span>★★★★★</span>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="card review-card">
-                <div style="display:flex; align-items:center; gap:12px">
-                  <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, var(--accent-3), var(--accent)); display:grid; place-content:center; font-size:20px; font-weight:700; color:#fff">И</div>
-                  <div>
-                    <h3 style="margin:0">Иван</h3>
-                    <p style="margin:0; font-size:13px; color:var(--muted)">IKEA Assembly, Сан-Франциско</p>
-                  </div>
-                </div>
-                <p style="color:var(--text); line-height:1.5; margin:0; font-size:14px">IKEA Assembly — закрытая категория, думал, что продвинуться невозможно. Taskboost доказали обратное. Вышли в топ-5 в моём зипкоде за месяц. Теперь делаю 4-5 заказов в день, доход перевалил за $18,000 в месяц. Еженедельные отчёты помогают отслеживать прогресс и понимать, что происходит. Профессионалы своего дела!</p>
-                <div class="review-rating">
-                  <span>★★★★★</span>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="card review-card">
-                <div style="display:flex; align-items:center; gap:12px">
-                  <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, var(--accent-3), var(--accent)); display:grid; place-content:center; font-size:20px; font-weight:700; color:#fff">С</div>
-                  <div>
-                    <h3 style="margin:0">Сергей</h3>
-                    <p style="margin:0; font-size:13px; color:var(--muted)">Electrical Help, Майами</p>
-                  </div>
-                </div>
-                <p style="color:var(--text); line-height:1.5; margin:0; font-size:14px">Конкуренция в Майами безумная, я застрял на второй странице поиска. После месяца работы с Taskboost — топ-3 в категории, ставка поднялась с $60 до $110. Самое главное — всё абсолютно безопасно, никаких подозрительных действий. Рекомендую всем, кто хочет зарабатывать серьёзно на Taskrabbit.</p>
-                <div class="review-rating">
-                  <span>★★★★★</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-nav">
-            <button onclick="scrollCarousel('reviewsCarousel', -1)" aria-label="Предыдущий">‹</button>
-            <button onclick="scrollCarousel('reviewsCarousel', 1)" aria-label="Следующий">›</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Услуги -->
-  <section id="services">
-    <div class="wrap">
-      <div class="glass" style="padding:28px">
-        <h2>Дополнительные услуги</h2>
-        <div class="grid-4" style="margin-top:10px">
-          <div class="card">
-            <h3>Регистрация в городах без слотов</h3>
-            <p>Помогаем корректно и безопасно обойти лист ожидания — без риска блокировок.</p>
-          </div>
-          <div class="card">
-            <h3>Новый профиль после блокировки</h3>
-            <p>Создаём новый аккаунт на ваши данные и ускоряем выход в ТОП.</p>
-          </div>
-          <div class="card">
-            <h3>Апелляции и восстановление</h3>
-            <p>Готовим корректные ответы и апелляции, снижающие риски.</p>
-          </div>
-          <div class="card">
-            <h3>Подписка «На спокойствие»</h3>
-            <p>Еженедельные отчёты, коммуникация с поддержкой, апелляции и защита от блокировки.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Подписка «На спокойствие» (отдельный детальный блок) -->
-  <section id="calm-subscription">
-    <div class="wrap">
-      <div class="glass" style="padding:40px;">
-        <h2>Подписка «На спокойствие»</h2>
-        <p class="lead">Премиальный сервис полного сопровождения вашего аккаунта на Taskrabbit: мы берём на себя риски и рутину, вы — спокойно зарабатываете.</p>
-        <div class="divider"></div>
-        <div class="grid-3">
-          <div class="card">
-            <h3>Что включает подписка</h3>
-            <ul style="margin-left:18px; color:#4b5563">
-              <li>Еженедельные отчёты: динамика рейтинга, статистика заказов, рекомендации.</li>
-              <li>Анализ конкурентов и корректировка стратегии под апдейты алгоритмов.</li>
-              <li>Мониторинг активности и предотвращение нарушений политики.</li>
-              <li>Автоматические апелляции и ответы на уведомления поддержки.</li>
-              <li>Коммуникация с Taskrabbit Support от вашего имени.</li>
-              <li>Экстренное восстановление при блокировках и падении рейтинга.</li>
-              <li>Постоянная защита от блокировок и штрафов (модели поведения).</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>Почему это важно</h3>
-            <p>Риски неизбежны: жалобы, сбои, сезонность. С «На спокойствие» они не влияют на ваш доход.</p>
-            <ul style="margin-left:18px; color:#4b5563">
-              <li>Никакой бюрократии — всё делаем мы.</li>
-              <li>Профиль защищён 24/7, критика решается за сутки.</li>
-              <li>Планирование, заполненное расписание и стабильный доход.</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>Стоимость и гарантия</h3>
-            <p><strong>$49/мес</strong> или <strong>$350/год</strong> (экономия почти 50%).</p>
-            <p>Если аккаунт всё же заблокируют — бесплатно создадим новый и выведем его в ТОП за 1 месяц.</p>
-            <p><strong>Ваш личный менеджер, аналитик и страховка — в одном сервисе.</strong></p>
-            <a href="#apply" class="btn" style="margin-top:10px">Оформить подписку</a>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <p style="text-align:center; color:var(--muted); max-width:700px; margin:0 auto">Благодаря этому сервису клиенты сохраняют доступ к профилям, не теряют доход и чувствуют уверенность в завтрашнем дне.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Стоимость -->
-  <section id="pricing">
-    <div class="wrap">
-      <div class="glass" style="padding:28px">
-        <h2>Стоимость</h2>
-        <div class="grid-3" style="margin-top:10px">
-          <div class="card">
-            <h3>Аудит профиля</h3>
-            <p>Индивидуальные цели и предложение по стратегии.</p>
-            <p style="color:var(--muted)">Цена формируется по итогам аудита.</p>
-          </div>
-          <div class="card">
-            <h3>Средний пакет</h3>
-            <p style="font-size:28px; font-weight:800; color:var(--accent-3)">$800</p>
-            <p>Подходит большинству ниш и городов.</p>
-          </div>
-          <div class="card">
-            <h3>Подписка «На спокойствие»</h3>
-            <p><strong>$49/мес</strong> или <strong>$350/год</strong></p>
-            <p>Полное сопровождение и гарантия перезапуска при блокировке.</p>
-          </div>
-        </div>
-        <div style="margin-top:16px"><a href="#apply" class="btn">Оставить заявку</a></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Реальные доходы -->
-  <section id="income">
-    <div class="wrap">
-      <div class="glass" style="padding:28px">
-        <h2>Реальные доходы клиентов</h2>
-        <p class="lead">Средний доход — от <strong>$10,000</strong> в месяц, в ряде кейсов — до <strong>$20,000+</strong> через 2–3 месяца.</p>
-        <div class="divider"></div>
-        <div class="grid-3">
-          <div class="card"><h3>Стабильность</h3><p>Даже в низкий сезон — за счёт видимости и репутации.</p></div>
-          <div class="card"><h3>Безопасность</h3><p>Без ботов, скриптов и массовых накруток — только органичные паттерны.</p></div>
-          <div class="card"><h3>Прозрачность</h3><p>Еженедельные отчёты и метрики эффективности.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="wrap">
-      <div class="glass" style="padding:28px">
-        <h2>Часто задаваемые вопросы</h2>
-        <div class="faq">
-          <details>
-            <summary>1. Это не нарушает правила Taskrabbit?</summary>
-            <p>Мы используем только органичные методы, безопасные для профиля. Все действия выглядят естественно для алгоритмов платформы.</p>
-          </details>
-          <details>
-            <summary>2. Когда появятся первые результаты?</summary>
-            <p>Первые улучшения — через 10–14 дней, устойчивый выход в ТОП — около 3 недель (при соблюдении рекомендаций).</p>
-          </details>
-          <details>
-            <summary>3. Насколько безопасно пользоваться сервисом?</summary>
-            <p>Безопасность — приоритет: никаких массовых накруток, ботов или скриптов.</p>
-          </details>
-          <details>
-            <summary>4. Можно ли вернуть деньги, если не будет результата?</summary>
-            <p>Работаем по прозрачным условиям. Если цели не достигнуты — возможен частичный или полный возврат оплаты.</p>
-          </details>
-          <details>
-            <summary>5. Что делать, если аккаунт уже заблокирован?</summary>
-            <p>У нас есть успешные кейсы восстановления. В ~80% случаев возвращаем аккаунт к жизни.</p>
-          </details>
-          <details>
-            <summary>6. Подходит ли это для новичков без отзывов?</summary>
-            <p>Да. Ускоряем старт и помогаем получить первые заказы и отзывы максимально быстро.</p>
-          </details>
-          <details>
-            <summary>7. Работает ли Taskboost во всех городах США и Канады?</summary>
-            <p>Да, без региональных ограничений. Охватываем все крупные города, расширяемся в UK.</p>
-          </details>
-          <details>
-            <summary>8. Что если нет слотов для регистрации?</summary>
-            <p>Решаем через внутренние механизмы регистрации — легально и безопасно.</p>
-          </details>
-          <details>
-            <summary>9. Можно ли продвигаться, если у меня уже есть постоянные клиенты?</summary>
-            <p>Да. Усилим органический рост, увеличим охват и выведем на более дорогие заказы.</p>
-          </details>
-          <details>
-            <summary>10. Как можно оплатить услуги?</summary>
-            <p>Банковская карта, Zelle или прямой перевод.</p>
-          </details>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Подумайте / CTA -->
-  <section id="cta-think">
-    <div class="wrap">
-      <div class="glass" style="padding:28px; display:grid; gap:10px">
-        <h2>Подумайте</h2>
-        <ul style="margin:0 0 8px 18px; color:#4b5563">
-          <li>Зачем тратить три месяца на продвижение, если можно выйти в ТОП за <strong>три недели</strong>?</li>
-          <li>Зачем работать по минимальной ставке, если можно зарабатывать <strong>в 2–3 раза больше</strong>?</li>
-          <li>Зачем рисковать аккаунтом, если можно продвигаться безопасно и легально?</li>
+    <section id="cases" class="section cases">
+      <h2>Кейсы</h2>
+      <article class="case">
+        <header>NYC · Furniture Assembly · 05/01–05/28</header>
+        <ul class="metrics">
+          <li>Ставка: $45 → $78</li>
+          <li>Брони/неделю: 2 → 6</li>
+          <li>Видимость: низкая → первая страница</li>
         </ul>
-        <div><a href="#apply" class="btn">Хочу так же</a></div>
-      </div>
-    </div>
-  </section>
+        <p class="did">Что сделали: обновили фото/описание, оптимизировали расписание, скорректировали ставки, ввели SLA ответов.</p>
+        <div class="case-visual" role="img" aria-label="Схематичный рост метрик за период 05/01–05/28"></div>
+      </article>
 
-  <!-- Форма заявки -->
-  <section id="apply">
-    <div class="wrap">
-      <div class="glass form">
-        <div id="success-banner" class="success-banner">
-          <h3>
-            <span style="font-size:28px">✅</span>
-            Заявка успешно отправлена!
-          </h3>
-          <p><strong>Спасибо за обращение!</strong> Наш менеджер свяжется с вами в течение 24 часов для обсуждения деталей продвижения вашего профиля.</p>
-          <p style="color:var(--muted); font-size:14px; margin-top:12px">Мы уже начали анализировать вашу заявку и скоро предложим индивидуальную стратегию.</p>
-        </div>
-        <h2>Оставьте заявку — начните зарабатывать больше</h2>
-        <p class="lead">Укажите контакты, город и ссылку на профиль. Мы свяжемся в течение 24 часов.</p>
-        <form method="post" action="#" onsubmit="return submitLead(this)">
-          <div class="row">
-            <div><input class="input" type="text" name="name" placeholder="Имя" required></div>
-            <div><input class="input" type="text" name="city" placeholder="Город" required></div>
-          </div>
-          <div class="row-1">
-            <input class="input" type="url" name="profile" placeholder="Ссылка на профиль Taskrabbit" required>
-          </div>
-          <div class="row-1">
-            <label style="font-weight:600; display:block; color:var(--text)">Как с вами связаться?</label>
-            <div class="contact-methods">
-              <div class="contact-method">
-                <input type="radio" id="method-phone" name="contact_method" value="phone" onchange="updateContactPlaceholder()" checked>
-                <label for="method-phone">
-                  <span class="icon-emoji">📞</span>
-                  <span>Звонок</span>
-                </label>
-              </div>
-              <div class="contact-method">
-                <input type="radio" id="method-telegram" name="contact_method" value="telegram" onchange="updateContactPlaceholder()">
-                <label for="method-telegram">
-                  <img src="img/Telegram_logo.svg" alt="Telegram" style="width:24px; height:24px">
-                  <span>Telegram</span>
-                </label>
-              </div>
-              <div class="contact-method">
-                <input type="radio" id="method-whatsapp" name="contact_method" value="whatsapp" onchange="updateContactPlaceholder()">
-                <label for="method-whatsapp">
-                  <img src="img/WhatsApp.svg" alt="WhatsApp" style="width:24px; height:24px">
-                  <span>WhatsApp</span>
-                </label>
-              </div>
-              <div class="contact-method">
-                <input type="radio" id="method-email" name="contact_method" value="email" onchange="updateContactPlaceholder()">
-                <label for="method-email">
-                  <span class="icon-emoji">📧</span>
-                  <span>Email</span>
-                </label>
-              </div>
-            </div>
-            <input class="input" type="text" id="contact-input" name="contact" placeholder="Номер телефона" required>
-          </div>
-          <div class="row-1">
-            <textarea class="input" name="notes" rows="4" placeholder="Кратко о нише и целях (необязательно)"></textarea>
-          </div>
-          <div class="row-1" style="gap:16px">
-            <button class="btn" type="submit">Отправить заявку</button>
-            <p id="form-note" style="color:var(--muted); font-size:13px; margin:0">Нажимая на кнопку, вы соглашаетесь с обработкой данных.</p>
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>
+      <blockquote class="review">
+        <p>«За 3 недели вышел на первую страницу поиска и заполнил неделю вперёд. Ставка выросла с $45 до $95.»</p>
+        <cite>Михаил, Furniture Assembly, Нью-Йорк</cite>
+      </blockquote>
+    </section>
 
-  <footer>
-    <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; gap:10px">
-      <div style="display:flex; align-items:center; gap:10px" class="brand"><img src="img/logo.jpg" alt="Taskboost logo"><span>Taskboost</span></div>
-      <div>© <span id="y"></span> Taskboost. Все права защищены.</div>
-    </div>
+    <section id="faq" class="section faq">
+      <h2>FAQ</h2>
+      <details><summary>Это легально?</summary>
+        <p>Да. Мы работаем в рамках публичных правил платформы: улучшаем контент профиля, прайсинг, расписание, скорость ответа, анализируем метрики.</p>
+      </details>
+      <details><summary>Когда будет результат?</summary>
+        <p>Первые сдвиги обычно за 10–14 дней, зависит от ниши, города и времени онлайн.</p>
+      </details>
+      <details><summary>Возврат средств?</summary>
+        <p>Если прогресса по согласованным метрикам нет 30 дней — частичный/полный возврат. Детали в Условиях.</p>
+      </details>
+      <details><summary>Вы аффилированы с Taskrabbit?</summary>
+        <p>Нет. Taskboost — независимый сервис.</p>
+      </details>
+    </section>
+
+    <section id="lead-form" class="section form">
+      <h2>Получить бесплатный аудит</h2>
+      <form id="leadForm" novalidate>
+        <label>Имя* <input type="text" id="fName" required minlength="2" maxlength="50" autocomplete="name"></label>
+        <label>Город/регион* <input type="text" id="fCity" required minlength="2" maxlength="50" placeholder="Los Angeles, CA"></label>
+        <label>Ссылка на профиль (URL) <input type="url" id="fUrl" inputmode="url" placeholder="https://www.taskrabbit.com/profile/..."></label>
+        <label>Ниши/категории <input type="text" id="fCats" placeholder="Cleaning, Furniture Assembly"></label>
+        <fieldset>
+          <legend>Способ связи*</legend>
+          <label><input type="radio" name="contactMethod" value="telegram" required> Telegram</label>
+          <label><input type="radio" name="contactMethod" value="whatsapp"> WhatsApp</label>
+          <label><input type="radio" name="contactMethod" value="call"> Звонок</label>
+          <label><input type="radio" name="contactMethod" value="email"> Email</label>
+        </fieldset>
+        <label>Контакт* <input type="text" id="fContact" required placeholder="@username / +1... / email"></label>
+        <label>Комментарий <textarea id="fNote" maxlength="500"></textarea></label>
+
+        <input type="text" id="hp" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0">
+
+        <button type="submit" class="btn btn-primary" id="cta-submit">Получить аудит бесплатно</button>
+        <p class="form-legal">Нажимая кнопку, вы соглашаетесь с <a href="/privacy.html">Политикой</a> и <a href="/terms.html">Условиями</a>.</p>
+        <p id="formSuccess" class="success" hidden>Спасибо! Подготовим аудит и отправим в течение 24 часов.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="section footer">
+    <p>© 2025 Taskboost</p>
+    <nav><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></nav>
+    <p class="disclaimer">Taskboost не аффилирован с Taskrabbit. Рекомендации — в рамках публичных правил платформы.</p>
   </footer>
 
-  <script>
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const id = a.getAttribute('href').slice(1);
-        const el = document.getElementById(id);
-        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
-      })
-    })
-
-    function updateContactPlaceholder() {
-      const contactInput = document.getElementById('contact-input');
-      const selectedMethod = document.querySelector('input[name="contact_method"]:checked').value;
-
-      const placeholders = {
-        phone: { text: 'Номер телефона', type: 'tel' },
-        telegram: { text: '@username или номер телефона', type: 'text' },
-        whatsapp: { text: 'Номер телефона', type: 'tel' },
-        email: { text: 'Email адрес', type: 'email' }
-      };
-
-      contactInput.placeholder = placeholders[selectedMethod].text;
-      contactInput.type = placeholders[selectedMethod].type;
-    }
-
-    async function submitLead(form){
-      const data = Object.fromEntries(new FormData(form).entries());
-      const note = document.getElementById('form-note');
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const successBanner = document.getElementById('success-banner');
-
-      // Hide success banner if visible
-      successBanner.classList.remove('show');
-
-      // Disable button and show loading state
-      const originalBtnText = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Отправка...';
-      note.textContent = 'Отправляем заявку...';
-      note.style.color = 'var(--accent)';
-
-      try {
-        const response = await fetch('/api/submit-lead', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          // Show success banner
-          successBanner.classList.add('show');
-
-          // Scroll to success banner
-          successBanner.scrollIntoView({behavior: 'smooth', block: 'center'});
-
-          // Clear form note
-          note.textContent = 'Нажимая на кнопку, вы соглашаетесь с обработкой данных.';
-          note.style.color = 'var(--muted)';
-
-          // Reset form
-          form.reset();
-          updateContactPlaceholder(); // Reset to default
-        } else {
-          note.textContent = result.message || 'Произошла ошибка. Пожалуйста, попробуйте позже.';
-          note.style.color = 'var(--warn)';
-        }
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        note.textContent = 'Ошибка соединения. Пожалуйста, проверьте интернет и попробуйте снова.';
-        note.style.color = 'var(--warn)';
-      } finally {
-        // Re-enable button
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalBtnText;
-      }
-
-      return false;
-    }
-
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Carousel navigation
-    function scrollCarousel(carouselId, direction) {
-      const carousel = document.getElementById(carouselId);
-      const scrollAmount = carousel.offsetWidth;
-      carousel.scrollBy({
-        left: direction * scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-
-    // Mobile menu toggle
-    function toggleMenu() {
-      const menu = document.getElementById('menu');
-      const toggle = document.querySelector('.menu-toggle');
-      menu.classList.toggle('active');
-      toggle.classList.toggle('active');
-    }
-
-    function closeMenu() {
-      const menu = document.getElementById('menu');
-      const toggle = document.querySelector('.menu-toggle');
-      menu.classList.remove('active');
-      toggle.classList.remove('active');
-    }
-
-    // Close menu when clicking outside
-    document.addEventListener('click', function(event) {
-      const menu = document.getElementById('menu');
-      const toggle = document.querySelector('.menu-toggle');
-      const isClickInsideMenu = menu.contains(event.target);
-      const isClickOnToggle = toggle.contains(event.target);
-
-      if (!isClickInsideMenu && !isClickOnToggle && menu.classList.contains('active')) {
-        closeMenu();
-      }
-    });
-  </script>
+  <script src="app.js" defer></script>
 </body>
 </html>
